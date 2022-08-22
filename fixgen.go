@@ -10,14 +10,13 @@ import (
 
 func main() {
 
-	log.Printf("Generate fixture on %v\n", os.Args)
-
 	if len(os.Args) != 2 {
-		log.Println("os.Args len must be = 2 ex.: [fixgen.exe] [out.go]")
-		log.Println("or if u use IDE")
-		log.Println("//go:generate fixture.go ")
+		log.Println("The right format is:")
+		log.Println("//go:generate out.go ")
 		return
 	}
+
+	log.Printf("Generate fixture on %v\n", os.Args[0])
 
 	p := NewParser()
 	if err := p.Parse(os.Args[0]); err != nil {
