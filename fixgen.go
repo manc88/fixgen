@@ -13,7 +13,7 @@ func main() {
 	log.Printf("Generate fixture on %v\n", os.Args)
 
 	p := NewParser()
-	if err := p.Parse("example.go"); err != nil {
+	if err := p.Parse(os.Args[0]); err != nil {
 		log.Fatal(err)
 	}
 
