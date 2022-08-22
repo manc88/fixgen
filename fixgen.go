@@ -12,8 +12,15 @@ func main() {
 
 	log.Printf("Generate fixture on %v\n", os.Args)
 
+	if len(os.Args) != 2 {
+		log.Println("os.Args len must be = 2 ex.: [fixgen.exe] [out.go]")
+		log.Println("or if u use IDE")
+		log.Println("//go:generate fixture.go ")
+		return
+	}
+
 	p := NewParser()
-	if err := p.Parse(os.Args[1]); err != nil {
+	if err := p.Parse(os.Args[0]); err != nil {
 		log.Fatal(err)
 	}
 
@@ -29,7 +36,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = ioutil.WriteFile("fix.go", data, 0644)
+	err = ioutil.WriteFile(os.Args[1], data, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}

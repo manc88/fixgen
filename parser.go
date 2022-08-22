@@ -82,35 +82,24 @@ func (p *UnitParser) Parse(fileName string) error {
 			return true
 		}
 
-		//fields := make(map[string]string, x.Fields.NumFields())
-		//p.data[t.Name.Name] = fields
 		for _, field := range x.Fields.List {
 
 			mp, ok := field.Type.(*ast.MapType)
 			if ok {
-				//fmt.Printf("%s $map [%s][%s]\n", field.Names[0].Name, mp.Key, mp.Value)
-				//fields[field.Names[0].Name] = fmt.Sprintf("type=map adds=%s:%s", mp.Key, mp.Value)
 				p.data.AddStructFiled(t.Name.Name, field.Names[0].Name, "map", fmt.Sprintf("%s", mp.Key), fmt.Sprintf("%s", mp.Value))
 			}
 
 			s, ok := field.Type.(*ast.ArrayType)
 			if ok {
-				//fmt.Printf("%s $slice [%s]\n", field.Names[0].Name, s.Elt)
-				//fields[field.Names[0].Name] = fmt.Sprintf("type=slice adds=%s", s.Elt)
 				p.data.AddStructFiled(t.Name.Name, field.Names[0].Name, "slice", "", fmt.Sprintf("%s", s.Elt))
 			}
 
 			_, ok = field.Type.(*ast.Ident)
 			if ok {
-				//fmt.Printf("%s %s\n", field.Names[0].Name, field.Type)
-				//fields[field.Names[0].Name] = fmt.Sprintf("type=ident adds=%s", field.Type)
 				p.data.AddStructFiled(t.Name.Name, field.Names[0].Name, "ident", "", fmt.Sprintf("%s", field.Type))
 			}
-
 		}
-
 		return true
 	})
-
 	return nil
 }
