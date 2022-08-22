@@ -10,16 +10,25 @@ import (
 
 func main() {
 
-	if len(os.Args) != 2 {
-		log.Println("The right format is:")
-		log.Println("//go:generate out.go ")
-		return
+	in := ""
+	out := ""
+	switch len(os.Args) {
+	case 2:
+		in = os.Getenv("GOFILE")
+		out = os.Args[1]
+	case 3:
+		in = os.Args[1]
+		out = os.Args[2]
 	}
 
-	log.Printf("Generate fixture on %v\n", os.Args[0])
+	if in == "" || out == "" {
+		log.Fatalf("Wrong args")
+	}
+
+	log.Printf("Generate fixture on %s out=%s", in, out)
 
 	p := NewParser()
-	if err := p.Parse(os.Args[0]); err != nil {
+	if err := p.Parse(os.Args[1]); err != nil {
 		log.Fatal(err)
 	}
 
@@ -35,7 +44,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = ioutil.WriteFile(os.Args[1], data, 0644)
+	err = ioutil.WriteFile(os.Args[2], data, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
